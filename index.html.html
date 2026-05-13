@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Federal Disability Review</title>
+  <style>
+    :root {
+      --navy: #0f1828;
+      --navy-2: #17233a;
+      --burgundy: #7b0f2b;
+      --gold: #c7a14b;
+      --cream: #f7f5ef;
+      --white: #ffffff;
+      --text: #1f2937;
+      --muted: #667085;
+      --line: #e6e1d8;
+      --shadow: 0 24px 70px rgba(15, 24, 40, 0.18);
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--text);
+      background: var(--cream);
+    }
+
+    .topbar {
+      background: #0b1322;
+      color: var(--gold);
+      font-size: 13px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      border-bottom: 1px solid rgba(199,161,75,.25);
+    }
+
+    .nav {
+      height: 112px;
+      background: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 8.5vw;
+      box-shadow: 0 1px 0 rgba(0,0,0,.05);
+      position: relative;
+      z-index: 5;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      min-width: 280px;
+    }
+
+    .brand-mark {
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: radial-gradient(circle at 35% 35%, #ffffff 0, #ffffff 24%, #d9dee8 25%, #273750 56%, #0f1828 100%);
+      border: 2px solid var(--gold);
+      color: var(--burgundy);
+      font-size: 25px;
+      font-weight: 900;
+    }
+
+    .brand-text strong {
+      display: block;
+      font-family: Georgia, 'Times New Roman', serif;
+      color: var(--navy);
+      text-transform: uppercase;
+      font-size: 16px;
+      letter-spacing: .05em;
+      line-height: 1.05;
+    }
+
+    .brand-text span {
+      display: block;
+      color: var(--burgundy);
+      font-size: 11px;
+      letter-spacing: .11em;
+      text-transform: uppercase;
+      font-weight: 700;
+      margin-top: 4px;
+    }
+
+    .menu {
+      display: flex;
+      gap: 34px;
+      align-items: center;
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .menu a { color: var(--navy); text-decoration: none; }
+    .menu a:first-child { color: var(--burgundy); }
+
+    .nav-cta {
+      background: var(--burgundy);
+      color: white;
+      text-decoration: none;
+      padding: 18px 28px;
+      border-radius: 4px;
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      box-shadow: 0 10px 28px rgba(123,15,43,.18);
+    }
+
+    .hero {
+      min-height: 735px;
+      background:
+        linear-gradient(90deg, rgba(10,18,32,.94) 0%, rgba(12,23,40,.87) 42%, rgba(12,23,40,.55) 100%),
+        url('https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?auto=format&fit=crop&w=2400&q=80');
+      background-size: cover;
+      background-position: center;
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      padding: 90px 8.5vw;
+      position: relative;
+    }
+
+    .hero-content { max-width: 720px; }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--gold);
+      border: 1px solid rgba(199,161,75,.45);
+      border-radius: 5px;
+      padding: 11px 17px;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .11em;
+      text-transform: uppercase;
+      background: rgba(15,24,40,.35);
+      margin-bottom: 34px;
+    }
+
+    h1 {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(44px, 5vw, 78px);
+      line-height: 1.06;
+      margin: 0 0 28px;
+      letter-spacing: -.035em;
+    }
+
+    h1 em {
+      color: var(--gold);
+      font-style: normal;
+    }
+
+    .hero p {
+      font-size: 20px;
+      line-height: 1.7;
+      color: rgba(255,255,255,.91);
+      max-width: 660px;
+      margin: 0 0 38px;
+    }
+
+    .actions { display: flex; gap: 16px; flex-wrap: wrap; }
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 58px;
+      padding: 0 28px;
+      border-radius: 4px;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 900;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+    .button.primary { background: var(--burgundy); color: white; }
+    .button.secondary { border: 1px solid rgba(255,255,255,.45); color: white; background: rgba(255,255,255,.03); }
+
+    .trust-strip {
+      background: #f1efe9;
+      border-bottom: 1px solid var(--line);
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      padding: 20px 8.5vw;
+      gap: 0;
+    }
+    .trust-item {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      color: #5d6472;
+      font-weight: 700;
+      font-size: 14px;
+      border-right: 1px solid var(--line);
+    }
+    .trust-item:last-child { border-right: 0; }
+    .shield { color: var(--gold); font-size: 18px; }
+
+    section { padding: 92px 8.5vw; }
+    .section-intro { max-width: 780px; margin-bottom: 44px; }
+    .kicker { color: var(--burgundy); text-transform: uppercase; font-weight: 900; letter-spacing: .13em; font-size: 12px; }
+    h2 { font-family: Georgia, 'Times New Roman', serif; font-size: clamp(34px, 4vw, 54px); line-height: 1.1; margin: 14px 0 18px; color: var(--navy); letter-spacing: -.025em; }
+    .section-intro p { color: var(--muted); font-size: 18px; line-height: 1.7; margin: 0; }
+
+    .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .card {
+      background: white;
+      border: 1px solid var(--line);
+      padding: 34px;
+      min-height: 280px;
+      box-shadow: 0 10px 32px rgba(15,24,40,.06);
+    }
+    .card .number { color: var(--gold); font-family: Georgia, 'Times New Roman', serif; font-size: 34px; font-weight: 700; }
+    .card h3 { color: var(--navy); font-size: 22px; margin: 18px 0 12px; }
+    .card p { color: var(--muted); line-height: 1.65; margin: 0; }
+
+    .split { display: grid; grid-template-columns: 1.05fr .95fr; gap: 54px; align-items: center; background: white; }
+    .panel {
+      background: var(--navy);
+      color: white;
+      padding: 48px;
+      box-shadow: var(--shadow);
+      border-top: 5px solid var(--gold);
+    }
+    .panel h2 { color: white; }
+    .panel p { color: rgba(255,255,255,.78); line-height: 1.7; font-size: 17px; }
+    .checklist { list-style: none; padding: 0; margin: 26px 0 0; }
+    .checklist li { padding: 13px 0 13px 30px; border-bottom: 1px solid rgba(255,255,255,.12); position: relative; }
+    .checklist li::before { content: '✓'; position: absolute; left: 0; color: var(--gold); font-weight: 900; }
+
+    .services { background: #f7f5ef; }
+    .service-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+    .service {
+      background: white;
+      border-left: 5px solid var(--gold);
+      padding: 32px;
+      box-shadow: 0 14px 38px rgba(15,24,40,.07);
+    }
+    .service h3 { color: var(--navy); font-size: 24px; margin: 0 0 12px; }
+    .service p { color: var(--muted); line-height: 1.65; margin: 0; }
+
+    .cta-section {
+      background: linear-gradient(135deg, var(--navy), #07101e);
+      color: white;
+      text-align: center;
+    }
+    .cta-section h2 { color: white; max-width: 820px; margin-left: auto; margin-right: auto; }
+    .cta-section p { max-width: 690px; margin: 0 auto 32px; color: rgba(255,255,255,.78); font-size: 18px; line-height: 1.7; }
+
+    footer { background: #0b1322; color: rgba(255,255,255,.7); padding: 40px 8.5vw; font-size: 14px; }
+    footer strong { color: white; }
+
+    @media (max-width: 980px) {
+      .nav { height: auto; padding: 24px 6vw; flex-wrap: wrap; gap: 20px; }
+      .menu { order: 3; width: 100%; justify-content: center; flex-wrap: wrap; gap: 18px; }
+      .hero { padding: 74px 6vw; min-height: 660px; }
+      section { padding: 72px 6vw; }
+      .trust-strip, .cards, .split, .service-grid { grid-template-columns: 1fr; }
+      .trust-item { border-right: 0; border-bottom: 1px solid var(--line); padding: 12px; }
+    }
+
+    @media (max-width: 620px) {
+      .topbar { font-size: 10px; padding: 0 12px; text-align: center; }
+      .brand { min-width: 0; }
+      .brand-text strong { font-size: 13px; }
+      .nav-cta { width: 100%; text-align: center; }
+      .hero p { font-size: 17px; }
+      .button { width: 100%; }
+      .panel { padding: 34px 24px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">Woman-Owned & Disabled Veteran Operated</div>
+
+  <nav class="nav">
+    <div class="brand">
+      <div class="brand-mark">★</div>
+      <div class="brand-text">
+        <strong>The Federal<br>Disability Review</strong>
+        <span>Strategic Consulting</span>
+      </div>
+    </div>
+
+    <div class="menu">
+      <a href="#home">Home</a>
+      <a href="#process">How It Works</a>
+      <a href="#about">About</a>
+      <a href="#services">Services</a>
+      <a href="#faq">FAQ</a>
+      <a href="#contact">Contact</a>
+    </div>
+
+    <a class="nav-cta" href="#contact">Free Consultation</a>
+  </nav>
+
+  <header id="home" class="hero">
+    <div class="hero-content">
+      <div class="eyebrow">◇ Federal Disability Retirement Consulting</div>
+      <h1>Clarity When Your <em>Federal Career</em> Depends on It</h1>
+      <p>Strategic consulting for federal employees navigating disability retirement, reasonable accommodation, and the documentation that makes or breaks a case.</p>
+      <div class="actions">
+        <a class="button primary" href="#contact">Request a Free Consultation →</a>
+        <a class="button secondary" href="#process">Learn How It Works</a>
+      </div>
+    </div>
+  </header>
+
+  <div class="trust-strip">
+    <div class="trust-item"><span class="shield">◇</span> Woman-Owned Business</div>
+    <div class="trust-item"><span class="shield">◇</span> Disabled Veteran Operated</div>
+    <div class="trust-item"><span class="shield">◇</span> FRC & ADMS Certified</div>
+    <div class="trust-item"><span class="shield">◇</span> U.S. Army Veteran</div>
+  </div>
+
+  <section id="process">
+    <div class="section-intro">
+      <div class="kicker">How It Works</div>
+      <h2>A structured review process built around function, evidence, and timing.</h2>
+      <p>Federal disability retirement is not about having the worst diagnosis. It is about proving how your medical condition prevents reliable performance of the essential duties of your position.</p>
+    </div>
+    <div class="cards">
+      <div class="card"><div class="number">01</div><h3>Case Positioning</h3><p>We clarify your current posture, timeline, agency status, reasonable accommodation history, and disability retirement eligibility concerns.</p></div>
+      <div class="card"><div class="number">02</div><h3>Documentation Review</h3><p>We identify gaps between your medical evidence, position description, functional limitations, and the documents OPM will evaluate.</p></div>
+      <div class="card"><div class="number">03</div><h3>Strategy Blueprint</h3><p>You leave with a clear action plan for records, provider support, accommodation issues, SSDI proof, and next-step sequencing.</p></div>
+    </div>
+  </section>
+
+  <section id="about" class="split">
+    <div>
+      <div class="kicker">About TFDR</div>
+      <h2>Built for federal employees who need more than generic advice.</h2>
+      <p style="color: var(--muted); font-size: 18px; line-height: 1.7;">The Federal Disability Review helps employees understand how disability retirement, reasonable accommodation, and medical documentation fit together. The goal is not to overwhelm you with legal language. The goal is to translate your lived limitations into clear, organized functional evidence.</p>
+    </div>
+    <div class="panel">
+      <h2>What we focus on</h2>
+      <p>Our consulting model is educational and strategic. We help you understand what matters, what is missing, and how to prepare before the process becomes chaotic.</p>
+      <ul class="checklist">
+        <li>Position description and essential duty analysis</li>
+        <li>Medical documentation gap review</li>
+        <li>Reasonable accommodation sequence strategy</li>
+        <li>FERS Disability Retirement preparation</li>
+        <li>Post-approval income and compliance awareness</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="services" class="services">
+    <div class="section-intro">
+      <div class="kicker">Services</div>
+      <h2>Strategic support before, during, and after the decision point.</h2>
+      <p>Choose the level of support that matches your case complexity and your need for structure.</p>
+    </div>
+    <div class="service-grid">
+      <div class="service"><h3>Pre-Application Strategy Session</h3><p>A focused consultation for employees considering FERS Disability Retirement or trying to understand whether their current documentation supports the path forward.</p></div>
+      <div class="service"><h3>Reasonable Accommodation Strategy</h3><p>Guidance on organizing documentation, understanding agency response patterns, and preparing the record before disability retirement becomes necessary.</p></div>
+      <div class="service"><h3>Documentation Gap Review</h3><p>A structured review of key documents to identify where the evidence is strong, where it is vague, and where functional limitations need to be clearer.</p></div>
+      <div class="service"><h3>Post-Approval Compliance Review</h3><p>Support for understanding income limits, work activity, medical review expectations, and the documentation discipline needed after approval.</p></div>
+    </div>
+  </section>
+
+  <section id="faq">
+    <div class="section-intro">
+      <div class="kicker">FAQ</div>
+      <h2>Clear answers for a complicated process.</h2>
+      <p><strong>Are you a law firm?</strong> No. TFDR provides educational and strategic consulting, not legal representation, medical advice, or financial advice.</p>
+      <p><strong>Do you fill out the application for me?</strong> The service model can be adjusted, but the core focus is helping you understand what belongs where, what evidence matters, and how to prepare a stronger record.</p>
+      <p><strong>Who is this for?</strong> Federal employees who are overwhelmed by medical documentation, accommodation issues, agency requirements, and the disability retirement process.</p>
+    </div>
+  </section>
+
+  <section id="contact" class="cta-section">
+    <div class="kicker" style="color: var(--gold);">Start Here</div>
+    <h2>Get clarity before you make your next move.</h2>
+    <p>Request a consultation and begin with a structured review of your situation, your documents, and the path that makes the most sense for your case.</p>
+    <a class="button primary" href="mailto:contact@thefederaldisabilityreview.com">Request a Free Consultation</a>
+  </section>
+
+  <footer>
+    <strong>The Federal Disability Review, LLC</strong><br><br>
+    Educational consulting only. Not a law firm. Not medical, legal, or financial advice. Federal employees remain responsible for their own filings, deadlines, and agency communications.
+  </footer>
+</body>
+</html>
