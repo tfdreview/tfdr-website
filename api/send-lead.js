@@ -3,7 +3,13 @@ export default async function handler(req, res) {
     return res.status(405).json({ message: "Method not allowed" });
   }
 
-  const form = req.body || {};
+  let form = {};
+
+  try {
+    form = typeof req.body === "string" ? JSON.parse(req.body) : req.body || {};
+  } catch {
+    form = {};
+  }
 
   const name = form.name || form.fullName || form.full_name || "";
   const email = form.email || form.emailAddress || form.email_address || "";
@@ -36,7 +42,7 @@ Submitted from tfdrconsulting.com
         from: "TFDR Website <leads@send.thefederaldisabilityreview.com>",
         to: ["support@thefederaldisabilityreview.com"],
         subject: "New TFDR Website Lead",
-        replyTo: email || "support@thefederaldisabilityreview.com",
+        reply_to: email || "support@thefederaldisabilityreview.com",
         text: emailBody,
       }),
     });
