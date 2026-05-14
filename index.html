@@ -1014,12 +1014,13 @@
     </div>
   </footer>
 <script>
-  document.getElementById("leadForm").addEventListener("submit", async function(e) {
-    e.preventDefault();
+document.getElementById("leadForm").addEventListener("submit", async function(e) {
+  e.preventDefault();
 
-    const formData = new FormData(e.target);
-    const data = Object.fromEntries(formData.entries());
+  const formData = new FormData(e.target);
+  const data = Object.fromEntries(formData.entries());
 
+  try {
     const response = await fetch("/api/send-lead", {
       method: "POST",
       headers: {
@@ -1028,13 +1029,19 @@
       body: JSON.stringify(data)
     });
 
+    const result = await response.json();
+
     if (response.ok) {
       alert("Thank you. Your message has been sent.");
       e.target.reset();
     } else {
-      alert("Something went wrong. Please email support@thefederaldisabilityreview.com directly.");
+      alert("FORM ERROR: " + JSON.stringify(result));
     }
-  });
+
+  } catch (error) {
+    alert("BROWSER ERROR: " + error.message);
+  }
+});
 </script>
 </body>
 </html>
