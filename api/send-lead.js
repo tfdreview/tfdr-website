@@ -3,17 +3,24 @@ export default async function handler(req, res) {
     return res.status(405).json({ message: "Method not allowed" });
   }
 
-  const form = req.body;
+  const form = req.body || {};
+
+  const name = form.name || form.fullName || form.full_name || "";
+  const email = form.email || form.emailAddress || form.email_address || "";
+  const phone = form.phone || form.phoneNumber || form.phone_number || "";
+  const agency = form.agency || form.federalAgency || form.department || "";
+  const process = form.process || form.status || form.stage || "";
+  const message = form.message || form.description || form.situation || "";
 
   const emailBody = `
 New TFDR website lead received:
 
-Name: ${form.name || ""}
-Email: ${form.email || ""}
-Phone: ${form.phone || ""}
-Agency: ${form.agency || ""}
-Position: ${form.position || ""}
-Message: ${form.message || ""}
+Name: ${name}
+Email: ${email}
+Phone: ${phone}
+Agency: ${agency}
+Process Status: ${process}
+Message: ${message}
 
 Submitted from tfdrconsulting.com
 `;
@@ -27,20 +34,22 @@ Submitted from tfdrconsulting.com
       },
       body: JSON.stringify({
         from: "TFDR Website <leads@send.thefederaldisabilityreview.com>",
-        reply_to: form.email || "support@thefederaldisabilityreview.com",
         to: ["support@thefederaldisabilityreview.com"],
         subject: "New TFDR Website Lead",
+        replyTo: email || "support@thefederaldisabilityreview.com",
         text: emailBody,
       }),
     });
 
     if (!response.ok) {
       const error = await response.text();
+      console.error("RESEND ERROR:", error);
       return res.status(500).json({ message: error });
     }
 
     return res.status(200).json({ message: "Lead sent successfully" });
   } catch (error) {
+    console.error("SERVER ERROR:", error);
     return res.status(500).json({ message: error.message });
   }
 }
