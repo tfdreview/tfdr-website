@@ -1,29 +1,46 @@
-<script>
-  document.getElementById("leadForm").addEventListener("submit", async function(e) {
-    e.preventDefault();
+export default async function handler(req, res) {
+  if (req.method !== "POST") {
+    return res.status(405).json({ message: "Method not allowed" });
+  }
 
-    const formData = new FormData(e.target);
-    const data = Object.fromEntries(formData.entries());
+  const form = req.body || {};
 
-    try {
-      const response = await fetch("/api/send-lead", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(data)
-      });
+  const emailBody = `
+New TFDR website lead received:
 
-      const result = await response.json();
+Name: ${form.name || ""}
+Email: ${form.email || ""}
+Phone: ${form.phone || ""}
+Agency: ${form.agency || ""}
+Process Status: ${form.process || ""}
+Message: ${form.message || ""}
 
-      if (response.ok) {
-        alert("Thank you. Your message has been sent.");
-        e.target.reset();
-      } else {
-        alert("Form error: " + JSON.stringify(result));
-      }
-    } catch (error) {
-      alert("Browser error: " + error.message);
+Submitted from tfdrconsulting.com
+`;
+
+  try {
+    const response = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        from: "TFDR Website <leads@send.thefederaldisabilityreview.com>",
+        to: ["support@thefederaldisabilityreview.com"],
+        subject: "New TFDR Website Lead",
+        text: emailBody,
+      }),
+    });
+
+    const result = await response.text();
+
+    if (!response.ok) {
+      return res.status(500).json({ message: result });
     }
-  });
-</script>
+
+    return res.status(200).json({ message: "Lead sent successfully" });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+}
