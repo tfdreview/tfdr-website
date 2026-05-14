@@ -1013,5 +1013,28 @@
       <div class="footer-bottom"><span>© 2026 The Federal Disability Review, LLC. All rights reserved.</span><span><a href="privacy.html">Privacy Policy</a> &nbsp; | &nbsp; <a href="terms.html">Terms & Conditions</a></span></div>
     </div>
   </footer>
+<script>
+  document.getElementById("leadForm").addEventListener("submit", async function(e) {
+    e.preventDefault();
+
+    const formData = new FormData(e.target);
+    const data = Object.fromEntries(formData.entries());
+
+    const response = await fetch("/api/send-lead", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+    });
+
+    if (response.ok) {
+      alert("Thank you. Your message has been sent.");
+      e.target.reset();
+    } else {
+      alert("Something went wrong. Please email support@thefederaldisabilityreview.com directly.");
+    }
+  });
+</script>
 </body>
 </html>
