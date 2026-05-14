@@ -26,7 +26,8 @@ Submitted from tfdrconsulting.com
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        from: "TFDR Website <support@thefederaldisabilityreview.com>",
+        from: "TFDR Website <leads@send.thefederaldisabilityreview.com>",
+        reply_to: form.email || "support@thefederaldisabilityreview.com",
         to: ["support@thefederaldisabilityreview.com"],
         subject: "New TFDR Website Lead",
         text: emailBody,
